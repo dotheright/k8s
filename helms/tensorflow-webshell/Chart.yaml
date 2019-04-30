@@ -1,0 +1,7 @@
+apiVersion: v1
+appVersion: "1.0"
+description: 基于浏览器的TensorFlow命令行开发环境, 附带一个mnist训练示例，内部包含了TensorFlow 1.10.0版本, 用户可以运行示例,也可以编写代码进行测试.
+icon: http://jupyter.org/assets/Tensorflow_logo.svg
+name: tensorflow
+version: "1.0"
+displayName: "TensorFlow_1.10.0"

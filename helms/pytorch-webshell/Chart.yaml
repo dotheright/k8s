@@ -1,0 +1,7 @@
+apiVersion: v1
+appVersion: "1.0"
+description: 基于浏览器的PyTorch命令行开发环境, 附带一个mnist训练示例，内部包含了PyTorch 0.3.0版本, 用户可以运行示例, 也可以编写代码进行测试.
+icon: https://pytorch.org/assets/images/logo-icon.svg
+name: pytorch
+version: "1.0"
+displayName: PyTorch_0.3.0

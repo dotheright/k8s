@@ -1,0 +1,32 @@
+
+apiVersion: apps/v1beta1 # for versions before 1.6.0 use extensions/v1beta1
+kind: Deployment
+metadata:
+  name: my-ftp
+  labels:
+    app: my-ftp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: my-ftp
+        version: v1
+    spec:
+      volumes:
+      - name: task-pv-storage
+        persistentVolumeClaim:
+          claimName: task-pv-claim
+      containers:
+      - name: sftp
+        image: atmoz/sftp:debian
+        imagePullPolicy: IfNotPresent
+        args: [ "user:Pass12345:1001::upload" ]
+        resources:
+        volumeMounts:
+        - mountPath: "/home/user/sftp"
+          name: task-pv-storage
+        ports:
+        - name: sftp
+          containerPort: 22
+          protocol: TCP

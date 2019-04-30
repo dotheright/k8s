@@ -1,0 +1,17 @@
+kind: ReplicationController
+metadata:
+ name: webshell
+spec:
+ replicas: 1
+ selector:
+  app: webshell
+ template:
+  metadata:
+   labels:
+    app: webshell
+  spec:
+   containers:
+     - name: webshell
+       image: 192.168.1.164:5002/library/webshell:v1.0
+       ports:
+       - containerPort: 8080

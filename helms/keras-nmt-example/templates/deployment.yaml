@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: {{ include "tensorflow-webshell.fullname" . }}
+  labels:
+    app_label: {{.Release.Name }}
+    app.kubernetes.io/name: {{ include "tensorflow-webshell.name" . }}
+    helm.sh/chart: {{ include "tensorflow-webshell.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app_label: {{.Release.Name }}
+        app.kubernetes.io/name: {{ include "tensorflow-webshell.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: tensorflow
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          - "/bin/bash"
+          args:
+          - "-c"
+          - "/usr/sbin/sshd && echo -e '{{.Values.root.password}}\n{{.Values.root.password}}\n' | passwd &&  jupyter_start.sh {{ .Values.jupyter.password }} && jupyter notebook --ip 0.0.0.0 --allow-root"
+          ports:
+            {{- range .Values.clusterservice}}
+            - containerPort: {{.targetPort}}
+            {{- end}}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+            - name: ceph
+              mountPath: {{ .Values.volumes.path}}
+      volumes:
+{{ toYaml .Values.volumes.mount | indent 8 }}

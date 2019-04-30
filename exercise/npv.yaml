@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    app: hostpathpv2
+    type: local
+  name:  hostpathpv2
+  namespace: default
+spec:
+  storageClassName: manual2
+  capacity:
+   storage: 200Mi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+   path: "/tmp/pvdata"
+#  resources:
+#    requests:
+#      storage: 10Mi
